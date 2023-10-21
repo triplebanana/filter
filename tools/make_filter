@@ -1,0 +1,52 @@
+#!/bin/bash
+
+VERSION="1.0.0.00022"
+
+# Clean-up data
+rm *.txt *.dat *.filter
+
+# Copy base filter
+cp base/base.txt .
+
+# Download filters
+wget https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters.txt
+wget https://github.com/uBlockOrigin/uAssets/raw/master/filters/badware.txt
+wget https://github.com/uBlockOrigin/uAssets/raw/master/filters/privacy.txt
+wget https://github.com/uBlockOrigin/uAssets/raw/master/filters/resource-abuse.txt
+wget https://github.com/uBlockOrigin/uAssets/raw/master/filters/unbreak.txt
+wget https://easylist.to/easylist/easylist.txt
+wget https://easylist.to/easylist/easyprivacy.txt
+wget -O serverlist.txt "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplus&showintro=1&mimetype=plaintext"
+
+# Merge and unique
+cat *.txt | sort | uniq > http_filters.dat
+
+# CSS Filter
+./bin/css_ruleset_converter --input_format=filter-list \
+    --output_format=unindexed-ruleset \
+    --input_files=easylist.txt \
+    --output_file=css_filters.dat
+./bin/css_subresource_indexing_tool css_filters.dat $VERSION.css.filter
+
+# HTTP Filter
+./bin/ruleset_converter --input_format=filter-list \
+    --output_format=unindexed-ruleset \
+    --input_files=http_filters.dat \
+    --output_file=$VERSION.filter
+
+# Fix some binary
+vim -c ":set binary" -c ":%s/wcslog.js/wcslog.ts/g" -c ":wq" http_filters.dat
+
+# Zipping filters
+zip -9 $VERSION.filter.zip $VERSION.css.filter $VERSION.filter
+
+FILTER_SIZE=$(stat -c%s $VERSION.filter)
+
+# Clean-up data
+rm *.txt *.dat *.filter
+
+> metadata.json
+echo "{" >> metadata.json
+echo "    \"size\": $FILTER_SIZE," >> metadata.json
+echo "    \"version\": \"$VERSION\"" >> metadata.json
+echo "}" >> metadata.json
