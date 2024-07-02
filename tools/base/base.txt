@@ -117224,3 +117224,6 @@ zycrypto.com##.td-a-rec-id-custom_ad_2
 ~mentor.duden.de,duden.de##+js(aeld, DOMContentLoaded, isMobile)
 ~rocketnews24.com,~soranews24.com,~youpouch.com,*##[id^="div-gpt-ad"]:style(width:1px!important;height:1px!important;min-width:1px!important;min-height:1px!important;margin:0!important;padding:0!important;overflow:hidden!important;opacity:0!important)
 ~vipbox.pl,vipbox.*,vipboxtv.*##.position-absolute
+
+! https://www.reddit.com/r/uBlockOrigin/comments/16lmeri/youtube_antiadblock_and_ads_september_18_2023/k1wl8df/
+||googlevideo.com/videoplayback*&ctier=L&*%2Cctier%2C$xmlhttprequest,third-party,domain=m.youtube.com|music.youtube.com|www.youtube.com
