@@ -104531,6 +104531,7 @@ zycrypto.com##.td-a-rec-id-custom_ad_2
 ||ssl.o.univadis.it^
 ||ssl.o.vitals.com^
 ||ssl.o.webmd.com^
+||ssl.pstatic.net/tveta/libs/
 ||ssl2anyone3.com^
 ||ssl2anyone3.com^$popup
 ||ssl2anyone5.com^
